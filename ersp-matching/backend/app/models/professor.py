@@ -7,3 +7,4 @@ class Professor(Base):
     name = Column(String, nullable=False)
     email = Column(String)
     ta_preferences = Column(String)
+#1
