@@ -11,6 +11,7 @@ from app.db.session import SessionLocal
 from app.core.auth import get_current_active_user
 from app.core.celery_app import celery_app
 from app import tasks
+from app.api.api_v1 import professor
 
 # 🚀 Create the app only ONCE
 app = FastAPI(
@@ -53,6 +54,7 @@ app.include_router(
 )
 app.include_router(auth_router, prefix="/api", tags=["auth"])
 app.include_router(api_router, prefix="/api/v1")   # ← your match endpoint
+app.include_router(professor.router)
 
 # 🚀 Run server only when called directly
 if __name__ == "__main__":
