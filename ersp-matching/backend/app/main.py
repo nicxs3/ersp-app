@@ -54,7 +54,7 @@ app.include_router(
 )
 app.include_router(auth_router, prefix="/api", tags=["auth"])
 app.include_router(api_router, prefix="/api/v1")   # ← your match endpoint
-app.include_router(professor.router)
+app.include_router(professor.router, prefix="/api/v1/professors", tags=["professors"])
 
 # 🚀 Run server only when called directly
 if __name__ == "__main__":
