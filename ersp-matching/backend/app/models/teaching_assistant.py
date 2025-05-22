@@ -7,3 +7,4 @@ class TeachingAssistant(Base):
     name = Column(String, nullable=False)
     email = Column(String)
     professor_preferences = Column(String)
+    class_level=Column(String)

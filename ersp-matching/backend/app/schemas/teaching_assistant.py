@@ -5,6 +5,7 @@ class TeachingAssistantBase(BaseModel):
     name: str
     email: Optional[str] = None
     professor_preferences: Optional[str] = None
+    class_level: Optional[str] = None
 
 class TeachingAssistantCreate(TeachingAssistantBase):
     pass
