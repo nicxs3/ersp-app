@@ -1,18 +1,40 @@
-from fastapi import APIRouter
-from pydantic import BaseModel
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 from typing import Dict, List
+import json
+
+from app.db.session import get_db
+from app.models.professor import Professor
+from app.models.teaching_assistant import TeachingAssistant
 
 router = APIRouter()
 
-# Define request format
-class Preferences(BaseModel):
-    course_preferences: Dict[str, List[str]]
-    student_preferences: Dict[str, List[str]]
-
+@router.get("/match")
 @router.post("/match")
-def match_students(preferences: Preferences):
-    course_prefs = preferences.course_preferences
-    student_prefs = preferences.student_preferences
+def match_students(db: Session = Depends(get_db)):
+    # Get all professors and TAs from database
+    professors = db.query(Professor).all()
+    teaching_assistants = db.query(TeachingAssistant).all()
+
+    # Convert string preferences to dictionaries
+    course_prefs = {}
+    student_prefs = {}
+    
+    for prof in professors:
+        if prof.ta_preferences:
+            try:
+                # Try JSON first
+                course_prefs[prof.name] = json.loads(prof.ta_preferences)
+            except json.JSONDecodeError:
+                # Fallback: comma-separated
+                course_prefs[prof.name] = [x.strip() for x in prof.ta_preferences.split(',') if x.strip()]
+    
+    for ta in teaching_assistants:
+        if ta.professor_preferences:
+            try:
+                student_prefs[ta.name] = json.loads(ta.professor_preferences)
+            except json.JSONDecodeError:
+                student_prefs[ta.name] = [x.strip() for x in ta.professor_preferences.split(',') if x.strip()]
 
     assignments = {}
 
