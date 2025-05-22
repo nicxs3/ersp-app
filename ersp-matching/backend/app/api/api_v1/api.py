@@ -27,7 +27,7 @@ def match_students(db: Session = Depends(get_db)):
             courses_taken=[],  # Fill with real data if available
             skills=[],         # Fill with real data if available
             prev_exp=[],       # Fill with real data if available
-            pref_courses=[c.strip() for c in ta.professor_preferences.split(',')] if ta.professor_preferences else []
+            pref_courses=[]
         )
         ta_list.append(ta_obj)
 
@@ -49,11 +49,19 @@ def match_students(db: Session = Depends(get_db)):
     if final_graph is None:
         return {"matches": None, "message": "No valid matching found"}
     else:
+        '''
         matches = []
         for ta in final_graph.tas:
             matched_course = final_graph.curr_match.get(ta)
             if matched_course:
                 matches.append({"ta": ta.id, "course": matched_course.id})
+        return {"matches": matches}
+        '''
+        matches = []
+        for course in final_graph.courses:
+            matched_ta = final_graph.curr_match.get(course)
+            if matched_ta:
+                matches.append({"course": course.id, "ta": matched_ta.id})
         return {"matches": matches}
 
 
