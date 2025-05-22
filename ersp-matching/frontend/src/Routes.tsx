@@ -7,8 +7,9 @@ import { Home, Login, SignUp, Protected, PrivateRoute } from './views';
 import { Admin } from './admin';
 import { logout } from './utils/auth';
 
-// Add Professor
 import AddProfessor from './views/AddProfessor';
+import AddTA from './views/AddTA';
+
 
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -41,6 +42,7 @@ export const Routes: FC = () => {
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
           <a href="/add-professor" style={{ color: "#61dafb", marginBottom: "1em" }}>Add Professor</a>
+          <a href="/add-ta" style={{ color: "#61dafb", marginBottom: "1em" }}>Add TA</a>
           <Route
             path="/logout"
             render={() => {
@@ -52,6 +54,7 @@ export const Routes: FC = () => {
           <PrivateRoute path="/protected" component={Protected} />
           <Route exact path="/" component={Home} />
           <Route path="/add-professor" component={AddProfessor} />
+          <Route path="/add-ta" component={AddTA} />
         </header>
       </div>
     </Switch>
