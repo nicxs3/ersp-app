@@ -46,12 +46,20 @@ def get_courses_and_edges(course_requirement_list, ta_list):
     courses = []
     edges = []
 
+    ta_lookup = {ta.id: ta for ta in ta_list}  # Use .id if you set Applicant(id=ta.name)
+
     for cr in course_requirement_list:
         for i in range(cr.required_ta_count):
             new_course = Course(cr.id + ' ' + str(i), cr.attributes, i + 1)
             courses.append(new_course)
+            '''
             for ta in ta_list:
                 if cr.id in ta.pref_courses:
+                    edges.append(Edge(ta, new_course))
+            '''
+            for ta_name in getattr(cr, 'pref_tas', []):
+                ta = ta_lookup.get(ta_name)
+                if ta:
                     edges.append(Edge(ta, new_course))
 
     return courses, edges, ta_list
