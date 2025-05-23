@@ -9,6 +9,7 @@ import { logout } from './utils/auth';
 
 import AddProfessor from './views/AddProfessor';
 import AddTA from './views/AddTA';
+import ViewMatches from './views/ViewMatches';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +44,7 @@ export const Routes: FC = () => {
           <Route path="/signup" component={SignUp} />
           <a href="/add-professor" style={{ color: "#61dafb", marginBottom: "1em" }}>Add Professor</a>
           <a href="/add-ta" style={{ color: "#61dafb", marginBottom: "1em" }}>Add TA</a>
+          <a href="/view-matches" style={{ color: "#61dafb", marginBottom: "1em" }}>View Matches</a>
           <Route
             path="/logout"
             render={() => {
@@ -55,6 +57,7 @@ export const Routes: FC = () => {
           <Route exact path="/" component={Home} />
           <Route path="/add-professor" component={AddProfessor} />
           <Route path="/add-ta" component={AddTA} />
+          <Route path="/view-matches" component={ViewMatches} />
         </header>
       </div>
     </Switch>
